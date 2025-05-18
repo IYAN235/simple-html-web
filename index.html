@@ -1,6 +1,652 @@
-<html>
-<title>simp html web</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GX Inspired Page - Embedded</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Global Styles & Variables */
+        :root {
+            --bg-primary: #1a1c25; /* Deep dark blue/purple */
+            --bg-secondary: #2c2f3e; /* Slightly lighter for elements */
+            --bg-tertiary: #222430;
+            --accent-primary: #ff007f; /* Neon Pink/Magenta */
+            --accent-secondary: #00f2ff; /* Neon Cyan */
+            --text-primary: #e0e0e0; /* Light grey for text */
+            --text-secondary: #a0a0b0;
+            --border-color: #40445c;
+            --glow-primary: rgba(255, 0, 127, 0.5);
+            --glow-secondary: rgba(0, 242, 255, 0.5);
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, clean font */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            transition: background-color 0.3s, color 0.3s; /* For theme toggle */
+        }
+
+        /* Container */
+        .gx-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .gx-sidebar {
+            width: 260px;
+            background-color: var(--bg-tertiary);
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 15px rgba(0,0,0,0.2);
+            position: fixed;
+            height: 100%;
+            z-index: 100;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .gx-sidebar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: var(--accent-secondary);
+            transition: color 0.3s;
+        }
+
+        .gx-sidebar .logo i {
+            margin-right: 10px;
+            font-size: 1.8em;
+        }
+
+        .gx-nav ul {
+            list-style: none;
+        }
+
+        .gx-nav li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gx-nav li a i {
+            margin-right: 15px;
+            width: 20px; /* Align icons */
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .gx-nav li a:hover {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            box-shadow: 0 0 10px var(--glow-secondary);
+        }
+
+        .gx-nav li.active a {
+            background-color: var(--accent-primary);
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--glow-primary);
+        }
+        .gx-nav li.active a i {
+            color: #fff;
+        }
+
+
+        .gx-controls {
+            margin-top: auto; /* Pushes to bottom */
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            transition: border-color 0.3s;
+        }
+
+        .control-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+            font-size: 0.9em;
+        }
+        .control-btn i {
+            margin-right: 8px;
+        }
+        .control-btn:hover {
+            background-color: var(--accent-secondary);
+            color: var(--bg-primary); /* Invert for contrast on hover */
+            box-shadow: 0 0 10px var(--glow-secondary);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid var(--accent-secondary);
+            transition: border-color 0.3s;
+        }
+
+        /* Main Content */
+        .gx-main-content {
+            flex-grow: 1;
+            padding: 25px 30px;
+            margin-left: 260px; /* Same as sidebar width */
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            transition: margin-left 0.3s ease, background 0.3s;
+        }
+
+        .gx-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.3s;
+        }
+
+        .gx-header h1 {
+            font-size: 1.8em;
+            color: var(--text-primary);
+            text-shadow: 0 0 8px var(--glow-primary);
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .search-bar {
+            display: flex;
+        }
+        .search-bar input {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-right: none;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 5px 0 0 5px;
+            min-width: 250px;
+            outline: none;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: var(--accent-secondary);
+            border: 1px solid var(--accent-secondary);
+            color: var(--bg-primary); /* Inverted for contrast */
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .search-bar button:hover {
+            background-color: color-mix(in srgb, var(--accent-secondary) 90%, black);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none; /* Hidden by default */
+            padding: 20px;
+            background-color: color-mix(in srgb, var(--bg-secondary) 50%, transparent);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .content-section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 10px;
+            display: inline-block;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        /* Card Grid and Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, border-color 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--glow-primary);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .card h3, .card h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+        .card-icon {
+            font-size: 2em;
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+        .card-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--accent-secondary);
+            color: var(--bg-primary); /* Inverted for contrast */
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, color 0.2s;
+        }
+        .card-btn:hover {
+            background-color: color-mix(in srgb, var(--accent-secondary) 90%, black);
+            transform: scale(1.05);
+        }
+        .card-btn.accent-btn {
+            background-color: var(--accent-primary);
+            color: #fff;
+        }
+        .card-btn.accent-btn:hover {
+            background-color: color-mix(in srgb, var(--accent-primary) 90%, black);
+        }
+        .highlight-card {
+            border-left: 4px solid var(--accent-primary);
+            transition: border-color 0.3s;
+        }
+
+        /* News Section */
+        .news-item {
+            background-color: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .news-item h3 {
+            color: var(--accent-secondary);
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+        .news-item p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        .news-item span {
+            font-size: 0.8em;
+            color: #777; /* This might need adjustment for light theme */
+            display: block;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        /* Settings Section */
+        .setting-option {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: var(--bg-tertiary);
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .setting-option label {
+            margin-right: 10px;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+        .setting-option select, .setting-option input[type="checkbox"] {
+            padding: 8px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        /* Light Theme Mode */
+        body.light-theme {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e4e6eb;
+            --accent-primary: #d61a6c; /* Adjusted pink for better contrast on light */
+            --accent-secondary: #008a99; /* Adjusted cyan for better contrast on light */
+            --text-primary: #1c1e21;
+            --text-secondary: #606770;
+            --border-color: #ccd0d5;
+            --glow-primary: rgba(214, 26, 108, 0.3);
+            --glow-secondary: rgba(0, 138, 153, 0.3);
+        }
+        /* Specific adjustments for light theme */
+        body.light-theme .search-bar button {
+            color: #fff; /* Ensure text is visible on colored button */
+        }
+        body.light-theme .card-btn {
+            color: #fff; /* Ensure text is visible on colored button */
+        }
+        body.light-theme .control-btn:hover {
+            color: #fff;
+        }
+         body.light-theme .news-item span {
+            color: #888;
+        }
+
+
+        /* Basic Responsive Adjustments */
+        @media (max-width: 768px) {
+            .gx-sidebar {
+                width: 60px; /* Collapsed sidebar */
+            }
+            .gx-sidebar .logo span, .gx-nav li a span, .profile span {
+                display: none; /* Hide text, show icons only */
+            }
+            .gx-sidebar .logo i { margin-right: 0; }
+            .gx-nav li a { justify-content: center; }
+            .gx-nav li a i { margin-right: 0; font-size: 1.3em; }
+            .gx-main-content {
+                margin-left: 60px;
+            }
+            .gx-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                margin-top: 15px;
+                width: 100%;
+            }
+            .search-bar input {
+                min-width: 0;
+                flex-grow: 1;
+            }
+        }
+        @media (max-width: 480px) {
+            .gx-main-content {
+                padding: 20px 15px;
+            }
+            .gx-header h1 {
+                font-size: 1.5em;
+            }
+            .card-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+        }
+    </style>
+</head>
 <body>
-<h2>Hi da suni</h2>
+    <div class="gx-container">
+        <!-- Sidebar -->
+        <aside class="gx-sidebar">
+            <div class="logo">
+                <i class="fa-brands fa-wolf-pack-battalion"></i> <!-- Placeholder Logo -->
+                <span>GX Portal</span>
+            </div>
+            <nav class="gx-nav">
+                <ul>
+                    <li class="active"><a href="#" data-section="home"><i class="fas fa-home"></i><span>Home</span></a></li>
+                    <li><a href="#" data-section="games"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
+                    <li><a href="#" data-section="news"><i class="fas fa-newspaper"></i><span>News</span></a></li>
+                    <li><a href="#" data-section="settings"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+                </ul>
+            </nav>
+            <div class="gx-controls">
+                <button class="control-btn" id="themeToggleButton">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+                <div class="profile">
+                    <img src="https://via.placeholder.com/40/00f2ff/1a1c25?text=U" alt="User Profile" id="profileImage">
+                    <span>User_X</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gx-main-content">
+            <header class="gx-header">
+                <h1 id="main-title">Welcome to the GX Experience</h1>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search anything...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </header>
+
+            <section id="home" class="content-section active-section">
+                <h2>Home Dashboard</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Quick Launch</h3>
+                        <p>Instantly access your favorite apps and games.</p>
+                        <button class="card-btn">Launch</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Performance</h3>
+                        <p>Monitor your system's performance in real-time.</p>
+                        <button class="card-btn">View Stats</button>
+                    </div>
+                    <div class="card highlight-card">
+                        <div class="card-icon"><i class="fas fa-star"></i></div>
+                        <h3>Featured Game</h3>
+                        <p>Cyber Runner X - Now with 20% off!</p>
+                        <button class="card-btn accent-btn">Get It Now</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="games" class="content-section">
+                <h2>My Games Library</h2>
+                <p>Your collection of installed and favorite games.</p>
+                 <div class="card-grid">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x150/555/fff?text=Game+Alpha" alt="Game Alpha">
+                        <h4>Game Alpha</h4>
+                        <p>Action RPG</p>
+                    </div>
+                     <div class="card">
+                        <img src="https://via.placeholder.com/300x150/666/fff?text=Game+Beta" alt="Game Beta">
+                        <h4>Game Beta</h4>
+                        <p>Tactical Shooter</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x150/777/fff?text=Game+Gamma" alt="Game Gamma">
+                        <h4>Game Gamma</h4>
+                        <p>Strategy Sim</p>
+                    </div>
+                 </div>
+            </section>
+
+            <section id="news" class="content-section">
+                <h2>Latest Gaming News</h2>
+                <article class="news-item">
+                    <h3>New GPU Announcements!</h3>
+                    <p>Read about the latest hardware releases, benchmarks, and availability from top manufacturers.</p>
+                    <span>Oct 26, 2023</span>
+                </article>
+                <article class="news-item">
+                    <h3>Indie Game Spotlight: "Pixel Odyssey"</h3>
+                    <p>Discover "Pixel Odyssey", a charming retro-inspired adventure game with a modern twist.</p>
+                    <span>Oct 25, 2023</span>
+                </article>
+                <article class="news-item">
+                    <h3>E-Sports Championship Finals Approaching</h3>
+                    <p>The Global Gaming League finals are just around the corner. Check out the teams and schedule.</p>
+                    <span>Oct 24, 2023</span>
+                </article>
+            </section>
+
+            <section id="settings" class="content-section">
+                <h2>Settings Panel</h2>
+                <p>Customize your GX experience.</p>
+                <div class="setting-option">
+                    <label for="theme-select">Interface Theme:</label>
+                    <select id="theme-select">
+                        <option value="dark_neon">Dark Neon (Default)</option>
+                        <option value="light_mode">Light Mode</option>
+                    </select>
+                </div>
+                 <div class="setting-option">
+                    <label for="notifications-toggle">Enable Notifications:</label>
+                    <input type="checkbox" id="notifications-toggle" checked>
+                </div>
+                <div class="setting-option">
+                    <label for="performance-mode">Performance Mode:</label>
+                    <select id="performance-mode">
+                        <option value="balanced">Balanced</option>
+                        <option value="max_performance">Max Performance</option>
+                        <option value="power_saver">Power Saver</option>
+                    </select>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.gx-nav ul li a');
+            const contentSections = document.querySelectorAll('.content-section');
+            const mainTitle = document.getElementById('main-title');
+            const themeToggleButton = document.getElementById('themeToggleButton');
+            const themeToggleIcon = themeToggleButton.querySelector('i');
+            const profileImage = document.getElementById('profileImage');
+            const bodyElement = document.body;
+
+            // Function to handle section switching
+            function switchSection(targetSectionId) {
+                navLinks.forEach(link => {
+                    link.parentElement.classList.remove('active');
+                    if (link.dataset.section === targetSectionId) {
+                        link.parentElement.classList.add('active');
+                    }
+                });
+
+                let foundSectionTitle = 'Dashboard'; // Default title
+                contentSections.forEach(section => {
+                    if (section.id === targetSectionId) {
+                        section.classList.add('active-section');
+                        const h2 = section.querySelector('h2');
+                        if (h2) {
+                            foundSectionTitle = h2.textContent;
+                        }
+                    } else {
+                        section.classList.remove('active-section');
+                    }
+                });
+                mainTitle.textContent = foundSectionTitle;
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetSectionId = link.dataset.section;
+                    switchSection(targetSectionId);
+                     // Save current section to localStorage
+                    localStorage.setItem('gxLastSection', targetSectionId);
+                });
+            });
+
+            // Theme toggle functionality
+            function applyTheme(theme) {
+                if (theme === 'light') {
+                    bodyElement.classList.add('light-theme');
+                    themeToggleIcon.classList.remove('fa-moon');
+                    themeToggleIcon.classList.add('fa-sun');
+                    themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+                    if (profileImage) profileImage.src = "https://via.placeholder.com/40/1877f2/f0f2f5?text=U"; // Light theme PFP
+                } else {
+                    bodyElement.classList.remove('light-theme');
+                    themeToggleIcon.classList.remove('fa-sun');
+                    themeToggleIcon.classList.add('fa-moon');
+                    themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+                    if (profileImage) profileImage.src = "https://via.placeholder.com/40/00f2ff/1a1c25?text=U"; // Dark theme PFP
+                }
+                 // Update settings dropdown to match
+                const themeSelect = document.getElementById('theme-select');
+                if (themeSelect) {
+                    themeSelect.value = theme === 'light' ? 'light_mode' : 'dark_neon';
+                }
+            }
+
+            themeToggleButton.addEventListener('click', () => {
+                const newTheme = bodyElement.classList.contains('light-theme') ? 'dark' : 'light';
+                localStorage.setItem('gxTheme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('gxTheme') || 'dark'; // Default to dark
+            applyTheme(savedTheme);
+
+            // Settings select for theme
+            const themeSelect = document.getElementById('theme-select');
+            if(themeSelect) {
+                themeSelect.addEventListener('change', (e) => {
+                    const newTheme = e.target.value === 'light_mode' ? 'light' : 'dark';
+                    localStorage.setItem('gxTheme', newTheme);
+                    applyTheme(newTheme);
+                });
+            }
+
+            // Load last visited section or default to home
+            const lastSection = localStorage.getItem('gxLastSection') || 'home';
+            switchSection(lastSection);
+        });
+    </script>
 </body>
-</html> 
+</html>
